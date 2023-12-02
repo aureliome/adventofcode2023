@@ -16,32 +16,38 @@
   What is the sum of all of the calibration values?
 */
 
-const calibrationDocument = require("./input");
+const realInput = require("./input");
 
-const lines = calibrationDocument.split("\n");
+const main = (input) => {
+  const lines = input.split("\n");
 
-let sum = 0;
+  let sum = 0;
 
-function isDigit(character) {
-  return !isNaN(parseInt(character));
-}
-
-for (const line of lines) {
-  let firstDigit, lastDigit;
-
-  for (let i = 0; i < line.length && !firstDigit; i++) {
-    if (isDigit(line[i])) {
-      firstDigit = line[i];
-    }
+  function isDigit(character) {
+    return !isNaN(parseInt(character));
   }
 
-  for (let i = line.length - 1; i >= 0 && !lastDigit; i--) {
-    if (isDigit(line[i])) {
-      lastDigit = line[i];
+  for (const line of lines) {
+    let firstDigit, lastDigit;
+
+    for (let i = 0; i < line.length && !firstDigit; i++) {
+      if (isDigit(line[i])) {
+        firstDigit = line[i];
+      }
     }
+
+    for (let i = line.length - 1; i >= 0 && !lastDigit; i--) {
+      if (isDigit(line[i])) {
+        lastDigit = line[i];
+      }
+    }
+
+    sum += parseInt(`${firstDigit}${lastDigit}`);
   }
 
-  sum += parseInt(`${firstDigit}${lastDigit}`);
-}
+  return sum;
+};
 
-console.log(`The sum is ${sum}`);
+console.log(`The sum is ${main(realInput)}`);
+
+module.exports = main;
