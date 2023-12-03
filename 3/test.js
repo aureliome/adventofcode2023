@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert");
 const first = require("./1");
-// const second = require("./2");
+const second = require("./2");
 
 const input = `
   467..114..
@@ -20,6 +20,6 @@ test("first puzzle works", () => {
   assert.strictEqual(first(input), 4361);
 });
 
-// test("second puzzle works", () => {
-//   assert.strictEqual(second(input), 2286);
-// });
+test("second puzzle works", () => {
+  assert.strictEqual(second(input), 467835);
+});
