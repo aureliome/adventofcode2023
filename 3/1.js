@@ -28,6 +28,7 @@
 */
 
 const { splitLines, isDigit } = require("../utils");
+const realInput = require("./input");
 
 const isSymbol = (element) => element && !isDigit(element) && element !== ".";
 
@@ -116,6 +117,6 @@ const main = (input) => {
   return numbers.reduce((acc, value) => (acc += value), 0);
 };
 
-// console.log(`The sum is ${main(realInput)}`);
+console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
