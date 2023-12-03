@@ -74,7 +74,6 @@ const main = (input) => {
             isPart = true;
           }
 
-          // console.log(tempNumber, tempNumberFirstDigitColumn);
           for (let k = tempNumberFirstDigitColumn - 1; k <= c; k++) {
             // check upper row
             if (r - 1 >= 0 && isSymbol(matrix[r - 1][k])) {
@@ -91,7 +90,6 @@ const main = (input) => {
             // then save the number
             numbers.push(parseInt(tempNumber));
           }
-          // console.log(tempNumber, isPart);
           // clean the cache
           tempNumber = "";
           tempNumberFirstDigitColumn = 0;
@@ -101,7 +99,6 @@ const main = (input) => {
       } else {
         // if there is a tempNumber saved
         if (tempNumber) {
-          // console.log(tempNumber, true);
           // then save the number
           numbers.push(parseInt(tempNumber));
         }
@@ -111,8 +108,6 @@ const main = (input) => {
       }
     }
   }
-
-  // console.log(numbers);
 
   return numbers.reduce((acc, value) => (acc += value), 0);
 };
