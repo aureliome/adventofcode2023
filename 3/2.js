@@ -33,7 +33,7 @@
 const { splitLines, isDigit } = require("../utils");
 const realInput = require("./input");
 
-const isSymbol = (element) => element && !isDigit(element) && element !== ".";
+const isAsterisk = (element) => element && element === "*";
 
 const main = (input) => {
   // split the lines
@@ -42,10 +42,18 @@ const main = (input) => {
   // create the matrix
   const matrix = lines.map((line) => line.split(""));
 
-  const numbers = [];
-  const numbersBySymbol = {};
   let tempNumber = "";
   let tempNumberFirstDigitColumn = 0;
+
+  // { (row,column): [(numbers)] }
+  const asterisksNumbers = {};
+  const addAsterickNumber = (number, row, column) => {
+    const coordinates = `${row}-${column}`;
+    if (!asterisksNumbers[coordinates]) {
+      asterisksNumbers[coordinates] = [];
+    }
+    asterisksNumbers[coordinates].push(number);
+  };
 
   for (let r = 0; r < matrix.length; r++) {
     const row = matrix[r];
@@ -63,48 +71,47 @@ const main = (input) => {
         // add the digit to the tempNumber
         tempNumber += element;
 
-        // if the element is "." or it is the end of the row
-      } else if (element === "." || c === row.length - 1) {
+        // if the element is not digit or asterisk
+        // or it is the end of the row
+      } else if (!isAsterisk(element) || c === row.length - 1) {
         // if there is a tempNumber saved
         if (tempNumber) {
-          // then check if there is a symbol adjacent
-          let isPart = false;
+          // then check if there is a asterisk adjacent
 
           // check left element
           if (
             tempNumberFirstDigitColumn - 1 >= 0 &&
-            isSymbol(matrix[r][tempNumberFirstDigitColumn - 1])
+            isAsterisk(matrix[r][tempNumberFirstDigitColumn - 1])
           ) {
-            isPart = true;
+            addAsterickNumber(
+              parseInt(tempNumber),
+              r,
+              tempNumberFirstDigitColumn - 1
+            );
           }
 
           for (let k = tempNumberFirstDigitColumn - 1; k <= c; k++) {
             // check upper row
-            if (r - 1 >= 0 && isSymbol(matrix[r - 1][k])) {
-              isPart = true;
+            if (r - 1 >= 0 && isAsterisk(matrix[r - 1][k])) {
+              addAsterickNumber(parseInt(tempNumber), r - 1, k);
             }
             // check lower row
-            if (r + 1 < matrix.length && isSymbol(matrix[r + 1][k])) {
-              isPart = true;
+            if (r + 1 < matrix.length && isAsterisk(matrix[r + 1][k])) {
+              addAsterickNumber(parseInt(tempNumber), r + 1, k);
             }
           }
 
-          // if it is a symbol
-          if (isPart) {
-            // then save the number
-            numbers.push(parseInt(tempNumber));
-          }
           // clean the cache
           tempNumber = "";
           tempNumberFirstDigitColumn = 0;
         }
 
-        // if the element is a symbol
+        // if the element is a asterisk
       } else {
         // if there is a tempNumber saved
         if (tempNumber) {
           // then save the number
-          numbers.push(parseInt(tempNumber));
+          addAsterickNumber(parseInt(tempNumber), r, c);
         }
         // clean the cache
         tempNumber = "";
@@ -113,8 +120,15 @@ const main = (input) => {
     }
   }
 
-  return 467835;
-  return numbers.reduce((acc, value) => (acc += value), 0);
+  let sum = 0;
+  for (const key in asterisksNumbers) {
+    const numbers = asterisksNumbers[key];
+    if (numbers.length === 2) {
+      sum += numbers.reduce((acc, value) => (acc *= value), 1);
+    }
+  }
+
+  return sum;
 };
 
 console.log(`The sum is ${main(realInput)}`);
