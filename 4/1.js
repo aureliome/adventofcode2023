@@ -37,7 +37,7 @@
 */
 
 const { splitLines } = require("../utils");
-// const realInput = require("./input");
+const realInput = require("./input");
 
 const main = (input) => {
   // split the lines
@@ -75,6 +75,6 @@ const main = (input) => {
   return sum;
 };
 
-// console.log(`The sum is ${main(realInput)}`);
+console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
