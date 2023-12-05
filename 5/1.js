@@ -144,8 +144,39 @@ const main = (input) => {
   // get seeds
   const seeds = lines[0].replace("seeds: ", "").split(" ");
 
+  // elements
+  let elements = [
+    "seed",
+    "soil",
+    "fertilizer",
+    "water",
+    "light",
+    "temperature",
+    "humidity",
+    "location",
+  ];
+
+  elements = elements
+    // remove last element
+    .filter((element, index) => index < elements.length - 1)
+    .map((element, index) => {
+      const firstElement = elements[index];
+      const secondElement = elements[index + 1];
+      const thirdElement =
+        index < elements.length - 2 ? elements[index + 2] : null;
+
+      return createMap(
+        lines,
+        findStartIndex(lines, `${firstElement}-to-${secondElement}`),
+        thirdElement
+          ? findStartIndex(lines, `soil-to-fertilizer`)
+          : lines.length
+      );
+    });
+  console.log(elements[6]);
+
   // get maps
-  const seedToSoilMap = createMap(
+  /* const seedToSoilMap = createMap(
     lines,
     findStartIndex(lines, "seed-to-soil"),
     findStartIndex(lines, "soil-to-fertilizer")
@@ -181,7 +212,7 @@ const main = (input) => {
     lines.length
   );
 
-  console.log(seedToSoilMap);
+  console.log(seedToSoilMap); */
 
   return 35;
 };
