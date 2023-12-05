@@ -116,30 +116,9 @@ const { splitLines } = require("../utils");
 const findStartIndex = (array, string) =>
   array.findIndex((line) => line === `${string} map:`);
 
-const main = (input) => {
-  // split the lines
-  let lines = splitLines(input);
-  // console.log(lines);
-
-  const seeds = lines[0].replace("seeds: ", "").split(" ");
-  // console.log(seeds);
-
-  const seedToSoilStart = findStartIndex(lines, "seed-to-soil");
-  const soilToFertilizerStart = findStartIndex(lines, "soil-to-fertilizer");
-  const fertilizerToWaterStart = findStartIndex(lines, "fertilizer-to-water");
-  const waterToLightStart = findStartIndex(lines, "water-to-light");
-  const lightToTemperatureStart = findStartIndex(lines, "light-to-temperature");
-  const temperatureToHumidityStart = findStartIndex(
-    lines,
-    "temperature-to-humidity"
-  );
-  const humidityToLocationStart = findStartIndex(lines, "humidity-to-location");
-
-  const seedToSoilMap = lines
-    .filter(
-      (_value, index) =>
-        index > seedToSoilStart && index < soilToFertilizerStart
-    )
+const createMap = (lines, startLine, endLine) => {
+  const finalMap = lines
+    .filter((_value, index) => index > startLine && index < endLine)
     .reduce((acc, line) => {
       const map = {};
       const [destinationStart, sourceStart, range] = line
@@ -153,8 +132,54 @@ const main = (input) => {
 
   // add missing values
   for (let i = 0; i < 100; i++) {
-    if (!seedToSoilMap[i]) seedToSoilMap[i] = i;
+    if (!finalMap[i]) finalMap[i] = i;
   }
+  return finalMap;
+};
+
+const main = (input) => {
+  // split the lines
+  let lines = splitLines(input);
+
+  // get seeds
+  const seeds = lines[0].replace("seeds: ", "").split(" ");
+
+  // get maps
+  const seedToSoilMap = createMap(
+    lines,
+    findStartIndex(lines, "seed-to-soil"),
+    findStartIndex(lines, "soil-to-fertilizer")
+  );
+  const seedToFertilizerMap = createMap(
+    lines,
+    findStartIndex(lines, "soil-to-fertilizer"),
+    findStartIndex(lines, "fertilizer-to-water")
+  );
+  const fertilizerToWater = createMap(
+    lines,
+    findStartIndex(lines, "fertilizer-to-water"),
+    findStartIndex(lines, "water-to-light")
+  );
+  const waterToLight = createMap(
+    lines,
+    findStartIndex(lines, "water-to-light"),
+    findStartIndex(lines, "light-to-temperature")
+  );
+  const lightToTemperature = createMap(
+    lines,
+    findStartIndex(lines, "light-to-temperature"),
+    findStartIndex(lines, "temperature-to-humidity")
+  );
+  const temperatureToHumidity = createMap(
+    lines,
+    findStartIndex(lines, "temperature-to-humidity"),
+    findStartIndex(lines, "humidity-to-location")
+  );
+  const humidityToLocation = createMap(
+    lines,
+    findStartIndex(lines, "humidity-to-location"),
+    lines.length
+  );
 
   console.log(seedToSoilMap);
 
