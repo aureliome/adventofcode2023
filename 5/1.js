@@ -140,18 +140,16 @@ const main = (input) => {
       (_value, index) =>
         index > seedToSoilStart && index < soilToFertilizerStart
     )
-    .map((line) => {
+    .reduce((acc, line) => {
       const map = {};
-      // use ranges to map values
       const [destinationStart, sourceStart, range] = line
         .split(" ")
         .map((value) => parseInt(value));
       for (let i = 0; i < range; i++) {
         map[sourceStart + i] = destinationStart + i;
       }
-      return map;
-    })
-    .reduce((acc, value) => (acc = Object.assign(acc, value)), {});
+      return Object.assign(acc, map);
+    }, {});
 
   // add missing values
   for (let i = 0; i < 100; i++) {
