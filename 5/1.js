@@ -129,11 +129,6 @@ const createMap = (lines, startLine, endLine) => {
       }
       return Object.assign(acc, map);
     }, {});
-
-  // add missing values
-  for (let i = 0; i < 100; i++) {
-    if (!finalMap[i]) finalMap[i] = i;
-  }
   return finalMap;
 };
 
@@ -141,7 +136,11 @@ const calculateLocation = (array, seed) => {
   let previousNumber = seed;
   let nextNumber;
   array.forEach((object) => {
-    nextNumber = object[previousNumber];
+    if (object[previousNumber]) {
+      nextNumber = object[previousNumber];
+    } else {
+      nextNumber = previousNumber;
+    }
     previousNumber = nextNumber;
   });
   return nextNumber;
@@ -186,8 +185,8 @@ const main = (input) => {
 
   const minimum = seeds.reduce((min, value) => {
     const location = calculateLocation(elements, value);
-    return location < min ? location : min;
-  }, 100);
+    return min === null || location < min ? location : min;
+  }, null);
 
   return minimum;
 };
