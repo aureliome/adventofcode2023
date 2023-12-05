@@ -122,36 +122,6 @@ const getMap = (lines, startLine, endLine) => {
     .map((line) => line.split(" ").map((value) => parseInt(value)));
 };
 
-// const createMap = (lines, startLine, endLine) => {
-//   const finalMap = lines
-//     .filter((_value, index) => index > startLine && index < endLine)
-//     .reduce((acc, line) => {
-//       const map = {};
-//       const [destinationStart, sourceStart, range] = line
-//         .split(" ")
-//         .map((value) => parseInt(value));
-//       for (let i = 0; i < range; i++) {
-//         map[sourceStart + i] = destinationStart + i;
-//       }
-//       return Object.assign(acc, map);
-//     }, {});
-//   return finalMap;
-// };
-
-const calculateLocation = (array, seed) => {
-  let previousNumber = seed;
-  let nextNumber;
-  array.forEach((object) => {
-    if (object[previousNumber]) {
-      nextNumber = object[previousNumber];
-    } else {
-      nextNumber = previousNumber;
-    }
-    previousNumber = nextNumber;
-  });
-  return nextNumber;
-};
-
 const main = (input) => {
   // split the lines
   let lines = splitLines(input);
@@ -186,14 +156,6 @@ const main = (input) => {
           ? findStartIndex(lines, `${secondElement}-to-${thirdElement}`)
           : lines.length
       );
-
-      // return createMap(
-      //   lines,
-      //   findStartIndex(lines, `${firstElement}-to-${secondElement}`),
-      //   thirdElement
-      //     ? findStartIndex(lines, `${secondElement}-to-${thirdElement}`)
-      //     : lines.length
-      // );
     });
 
   const locations = seeds.map((seed) => {
@@ -229,6 +191,6 @@ const main = (input) => {
   return minimum;
 };
 
-// console.log(`The sum is ${main(realInput)}`);
+console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
