@@ -111,26 +111,32 @@
 */
 
 const { splitLines } = require("../utils");
-// const realInput = require("./input");
+const realInput = require("./input");
 
 const findStartIndex = (array, string) =>
   array.findIndex((line) => line === `${string} map:`);
 
-const createMap = (lines, startLine, endLine) => {
-  const finalMap = lines
+const getMap = (lines, startLine, endLine) => {
+  return lines
     .filter((_value, index) => index > startLine && index < endLine)
-    .reduce((acc, line) => {
-      const map = {};
-      const [destinationStart, sourceStart, range] = line
-        .split(" ")
-        .map((value) => parseInt(value));
-      for (let i = 0; i < range; i++) {
-        map[sourceStart + i] = destinationStart + i;
-      }
-      return Object.assign(acc, map);
-    }, {});
-  return finalMap;
+    .map((line) => line.split(" ").map((value) => parseInt(value)));
 };
+
+// const createMap = (lines, startLine, endLine) => {
+//   const finalMap = lines
+//     .filter((_value, index) => index > startLine && index < endLine)
+//     .reduce((acc, line) => {
+//       const map = {};
+//       const [destinationStart, sourceStart, range] = line
+//         .split(" ")
+//         .map((value) => parseInt(value));
+//       for (let i = 0; i < range; i++) {
+//         map[sourceStart + i] = destinationStart + i;
+//       }
+//       return Object.assign(acc, map);
+//     }, {});
+//   return finalMap;
+// };
 
 const calculateLocation = (array, seed) => {
   let previousNumber = seed;
@@ -166,7 +172,6 @@ const main = (input) => {
   ];
 
   elements = elements
-    // remove last element
     .filter((element, index) => index < elements.length - 1)
     .map((element, index) => {
       const firstElement = elements[index];
@@ -174,18 +179,51 @@ const main = (input) => {
       const thirdElement =
         index < elements.length - 2 ? elements[index + 2] : null;
 
-      return createMap(
+      return getMap(
         lines,
         findStartIndex(lines, `${firstElement}-to-${secondElement}`),
         thirdElement
           ? findStartIndex(lines, `${secondElement}-to-${thirdElement}`)
           : lines.length
       );
+
+      // return createMap(
+      //   lines,
+      //   findStartIndex(lines, `${firstElement}-to-${secondElement}`),
+      //   thirdElement
+      //     ? findStartIndex(lines, `${secondElement}-to-${thirdElement}`)
+      //     : lines.length
+      // );
     });
 
-  const minimum = seeds.reduce((min, value) => {
-    const location = calculateLocation(elements, value);
-    return min === null || location < min ? location : min;
+  const locations = seeds.map((seed) => {
+    let previousNumber = seed;
+    let nextNumber = null;
+
+    elements.forEach((element) => {
+      // nextNumber = null;
+      element.forEach(([destinationStart, sourceStart, range]) => {
+        // if it is included in the range
+        if (
+          previousNumber >= sourceStart &&
+          previousNumber < sourceStart + range
+        ) {
+          nextNumber = destinationStart + (previousNumber - sourceStart);
+        }
+      });
+
+      // if it is not included in any range
+      if (!nextNumber) {
+        nextNumber = parseInt(previousNumber);
+      }
+      previousNumber = nextNumber;
+    });
+
+    return nextNumber;
+  });
+
+  const minimum = locations.reduce((min, value) => {
+    return min === null || value < min ? value : min;
   }, null);
 
   return minimum;
