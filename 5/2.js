@@ -39,7 +39,19 @@ const main = (input) => {
   let lines = splitLines(input);
 
   // get seeds
-  const seeds = lines[0].replace("seeds: ", "").split(" ");
+  let originalSeeds = lines[0]
+    .replace("seeds: ", "")
+    .split(" ")
+    .map((value) => parseInt(value));
+
+  let seeds = [];
+  for (let i = 0; i < originalSeeds.length; i += 2) {
+    const startSeed = originalSeeds[i];
+    const endSeed = startSeed + originalSeeds[i + 1];
+    for (let k = startSeed; k < endSeed; k++) {
+      seeds.push(k);
+    }
+  }
 
   // elements
   let elements = [
@@ -100,11 +112,9 @@ const main = (input) => {
     return min === null || value < min ? value : min;
   }, null);
 
-  return 46;
-
   return minimum;
 };
 
-console.log(`The sum is ${main(realInput)}`);
+// console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
