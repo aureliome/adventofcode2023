@@ -137,6 +137,16 @@ const createMap = (lines, startLine, endLine) => {
   return finalMap;
 };
 
+const calculateLocation = (array, seed) => {
+  let previousNumber = seed;
+  let nextNumber;
+  array.forEach((object) => {
+    nextNumber = object[previousNumber];
+    previousNumber = nextNumber;
+  });
+  return nextNumber;
+};
+
 const main = (input) => {
   // split the lines
   let lines = splitLines(input);
@@ -173,48 +183,13 @@ const main = (input) => {
           : lines.length
       );
     });
-  console.log(elements[6]);
 
-  // get maps
-  /* const seedToSoilMap = createMap(
-    lines,
-    findStartIndex(lines, "seed-to-soil"),
-    findStartIndex(lines, "soil-to-fertilizer")
-  );
-  const seedToFertilizerMap = createMap(
-    lines,
-    findStartIndex(lines, "soil-to-fertilizer"),
-    findStartIndex(lines, "fertilizer-to-water")
-  );
-  const fertilizerToWater = createMap(
-    lines,
-    findStartIndex(lines, "fertilizer-to-water"),
-    findStartIndex(lines, "water-to-light")
-  );
-  const waterToLight = createMap(
-    lines,
-    findStartIndex(lines, "water-to-light"),
-    findStartIndex(lines, "light-to-temperature")
-  );
-  const lightToTemperature = createMap(
-    lines,
-    findStartIndex(lines, "light-to-temperature"),
-    findStartIndex(lines, "temperature-to-humidity")
-  );
-  const temperatureToHumidity = createMap(
-    lines,
-    findStartIndex(lines, "temperature-to-humidity"),
-    findStartIndex(lines, "humidity-to-location")
-  );
-  const humidityToLocation = createMap(
-    lines,
-    findStartIndex(lines, "humidity-to-location"),
-    lines.length
-  );
+  const minimum = seeds.reduce((min, value) => {
+    const location = calculateLocation(elements, value);
+    return location < min ? location : min;
+  }, 100);
 
-  console.log(seedToSoilMap); */
-
-  return 35;
+  return minimum;
 };
 
 // console.log(`The sum is ${main(realInput)}`);
