@@ -169,7 +169,7 @@ const main = (input) => {
         lines,
         findStartIndex(lines, `${firstElement}-to-${secondElement}`),
         thirdElement
-          ? findStartIndex(lines, `soil-to-fertilizer`)
+          ? findStartIndex(lines, `${secondElement}-to-${thirdElement}`)
           : lines.length
       );
     });
