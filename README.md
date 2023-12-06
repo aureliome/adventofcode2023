@@ -17,3 +17,4 @@ This repository contains my solutions for [Advent of Code 2023](https://adventof
   # it runs the second part of the 3rd December puzzle
   node 3/2.js
   ```
+- to create a new puzzle day, you can run `npm run create (day)`, for example `npm run create 24` to create the folder `24/`
