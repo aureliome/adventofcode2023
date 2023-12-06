@@ -3,11 +3,9 @@ const assert = require("node:assert");
 const first = require("./1");
 const second = require("./2");
 
-/*
-  TODO: insert here the test input of the puzzles
-*/
 const input = `
-hello moon
+Time:      7  15   30
+Distance:  9  40  200
 `;
 
 test("first puzzle works", () => {

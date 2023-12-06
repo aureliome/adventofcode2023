@@ -1,7 +1,6 @@
-// TODO: insert here the real input of the puzzles
-
 const input = `
-hello world
+Time:        44     70     70     80
+Distance:   283   1134   1134   1491
 `;
 
 module.exports = input;
