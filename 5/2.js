@@ -39,19 +39,20 @@ const main = (input) => {
   let lines = splitLines(input);
 
   // get seeds
-  let originalSeeds = lines[0]
+  let seeds = lines[0]
     .replace("seeds: ", "")
     .split(" ")
     .map((value) => parseInt(value));
 
-  let seeds = [];
-  for (let i = 0; i < originalSeeds.length; i += 2) {
-    const startSeed = originalSeeds[i];
-    const endSeed = startSeed + originalSeeds[i + 1];
-    for (let k = startSeed; k < endSeed; k++) {
-      seeds.push(k);
-    }
-  }
+  // let seeds = [];
+  // for (let i = 0; i < originalSeeds.length; i += 2) {
+  //   const startSeed = originalSeeds[i];
+  //   const endSeed = startSeed + originalSeeds[i + 1];
+  //   for (let k = startSeed; k < endSeed; k++) {
+  //     seeds.push(k);
+  //   }
+  // }
+  // console.log(seeds.length);
 
   // elements
   let elements = [
@@ -82,39 +83,49 @@ const main = (input) => {
       );
     });
 
-  const locations = seeds.map((seed) => {
-    let previousNumber = seed;
-    let nextNumber = null;
+  const minimum = seeds.reduce((min, seed, index, array) => {
+    if (index % 2 === 0) {
+      let tempMin = min;
+      const startSeed = seed;
+      const rangeSeed = array[index + 1];
+      const endSeed = seed + rangeSeed;
+      console.log(index, startSeed, rangeSeed, endSeed);
 
-    elements.forEach((element) => {
-      // nextNumber = null;
-      element.forEach(([destinationStart, sourceStart, range]) => {
-        // if it is included in the range
-        if (
-          previousNumber >= sourceStart &&
-          previousNumber < sourceStart + range
-        ) {
-          nextNumber = destinationStart + (previousNumber - sourceStart);
+      for (let currentSeed = startSeed; currentSeed < endSeed; currentSeed++) {
+        console.log(currentSeed);
+        let previousNumber = currentSeed;
+        let nextNumber = previousNumber;
+        // let nextNumber = null;
+
+        elements.forEach((element, index) => {
+          // nextNumber = null;
+          element.forEach(([destinationStart, sourceStart, range]) => {
+            // if it is included in the range
+            if (
+              previousNumber >= sourceStart &&
+              previousNumber < sourceStart + range
+            ) {
+              nextNumber = destinationStart + (previousNumber - sourceStart);
+            }
+          });
+
+          previousNumber = nextNumber;
+        });
+
+        if (tempMin === null || tempMin > nextNumber) {
+          tempMin = nextNumber;
         }
-      });
-
-      // if it is not included in any range
-      if (!nextNumber) {
-        nextNumber = parseInt(previousNumber);
       }
-      previousNumber = nextNumber;
-    });
 
-    return nextNumber;
-  });
-
-  const minimum = locations.reduce((min, value) => {
-    return min === null || value < min ? value : min;
+      return tempMin;
+    } else {
+      return min;
+    }
   }, null);
 
   return minimum;
 };
 
-// console.log(`The sum is ${main(realInput)}`);
+console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
