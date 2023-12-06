@@ -58,19 +58,35 @@
   What do you get if you multiply these numbers together?
 */
 
+const { splitLines } = require("../utils");
 const realInput = require("./input");
 
 const main = (input) => {
-  /*
-    TODO: insert here the implementation of the first puzzle
-    using the "input" parameter
-  */
+  let [times, distances] = splitLines(input);
+  [, times] = times.split("Time: ");
+  [, distances] = distances.split("Distance: ");
+  times = times
+    .split(" ")
+    .filter((value) => value)
+    .map((value) => parseInt(value));
+  distances = distances
+    .split(" ")
+    .filter((value) => value)
+    .map((value) => parseInt(value));
 
-  /*
-    TODO: this value with:
-    2. when the implementation will be ready, the calculated value
-  */
-  return 288;
+  return times.reduce((acc, time, index) => {
+    let possibleSpeeds = 0;
+    // excluding ms=0 and ms=(all time)
+    for (let speed = 1; speed < time; speed++) {
+      const distanceRecord = distances[index];
+      const remainingTime = time - speed;
+      const distance = speed * remainingTime;
+      if (distance > distanceRecord) {
+        possibleSpeeds++;
+      }
+    }
+    return acc * possibleSpeeds;
+  }, 1);
 };
 
 // TODO: uncomment this line when you're ready to test it with real input
