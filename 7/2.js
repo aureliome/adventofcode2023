@@ -165,6 +165,6 @@ const main = (input) => {
   }, 0);
 };
 
-// console.log(`The sum is ${main(realInput)}`);
+console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
