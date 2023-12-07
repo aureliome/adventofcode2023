@@ -38,7 +38,6 @@ const cardsValue = {
   A: 14,
   K: 13,
   Q: 12,
-  J: 11,
   T: 10,
   9: 9,
   8: 8,
@@ -48,14 +47,39 @@ const cardsValue = {
   4: 4,
   3: 3,
   2: 2,
+  J: 1,
 };
 
 const calculateHandValue = (cardsString) => {
   const cards = cardsString.split("");
-  const cardsMap = cards.reduce((acc, card) => {
+  let cardsMap = cards.reduce((acc, card) => {
     acc[card] = (acc[card] || 0) + 1;
     return acc;
   }, {});
+  // console.log("old", cardsMap);
+
+  // handle jokers
+  if (cardsMap["J"]) {
+    let maximum = {
+      card: "",
+      frequency: 0,
+    };
+
+    for (const key in cardsMap) {
+      if (key !== "J") {
+        if (maximum.frequency < cardsMap[key]) {
+          maximum = { card: key, frequency: cardsMap[key] };
+        }
+      }
+    }
+
+    if (maximum.card) {
+      cardsMap[maximum.card] = cardsMap[maximum.card] + cardsMap["J"];
+      delete cardsMap["J"];
+    }
+    // console.log("new", cardsMap);
+  }
+
   const cardsFrequency = Object.values(cardsMap);
 
   // check how many kinds of cards there are in the hand
@@ -129,8 +153,6 @@ const main = (input) => {
 
   // console.log(hands);
 
-  return 5905;
-
   return hands.reduce((acc, hand, index) => {
     const win = hand.bid * (index + 1);
     const newAcc = acc + win;
@@ -143,6 +165,6 @@ const main = (input) => {
   }, 0);
 };
 
-console.log(`The sum is ${main(realInput)}`);
+// console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
