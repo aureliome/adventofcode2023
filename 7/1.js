@@ -104,11 +104,11 @@ const calculateHandValue = (cardsString) => {
       // five of a kind (5+0)
       return 7;
     case 2:
-      if (cardsFrequency[0] === 1 || cardsFrequency[1] === 4) {
+      if (cardsFrequency[0] === 1 || cardsFrequency[0] === 4) {
         // four of a kind (1+4 or 4+1)
         return 6;
       } else {
-        // full (2+3 or 3+2)
+        // full house (2+3 or 3+2)
         return 5;
       }
     case 3:
@@ -141,9 +141,11 @@ const main = (input) => {
     const valueA = calculateHandValue(a.cards);
     const valueB = calculateHandValue(b.cards);
 
-    if (valueA > valueB) return 1;
-    else if (valueB > valueA) return -1;
-    else {
+    if (valueA > valueB) {
+      return 1;
+    } else if (valueA < valueB) {
+      return -1;
+    } else {
       for (let i = 0; i < a.cards.length; i++) {
         if (cardsValue[a.cards[i]] > cardsValue[b.cards[i]]) {
           return 1;
@@ -152,16 +154,17 @@ const main = (input) => {
         }
       }
       // they are absolutely equal
-      return 1;
+      return 0;
     }
   });
 
   return hands.reduce((acc, hand, index) => {
-    return acc + hand.bid * (index + 1);
+    const win = hand.bid * (index + 1);
+    const newAcc = acc + win;
+    return newAcc;
   }, 0);
 };
 
-// TODO: uncomment this line when you're ready to test it with real input
-// console.log(`The sum is ${main(realInput)}`);
+console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
