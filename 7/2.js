@@ -56,7 +56,6 @@ const calculateHandValue = (cardsString) => {
     acc[card] = (acc[card] || 0) + 1;
     return acc;
   }, {});
-  // console.log("old", cardsMap);
 
   // handle jokers
   if (cardsMap["J"]) {
@@ -77,7 +76,6 @@ const calculateHandValue = (cardsString) => {
       cardsMap[maximum.card] = cardsMap[maximum.card] + cardsMap["J"];
       delete cardsMap["J"];
     }
-    // console.log("new", cardsMap);
   }
 
   const cardsFrequency = Object.values(cardsMap);
@@ -86,35 +84,28 @@ const calculateHandValue = (cardsString) => {
   switch (cardsFrequency.length) {
     case 1:
       // five of a kind (5+0)
-      // console.log(cardsString, "five of a kind");
       return 7;
     case 2:
       if (cardsFrequency[0] === 1 || cardsFrequency[0] === 4) {
         // four of a kind (1+4 or 4+1)
-        // console.log(cardsString, "four of a kind");
         return 6;
       } else {
         // full house (2+3 or 3+2)
-        // console.log(cardsString, "full");
         return 5;
       }
     case 3:
       if ([cardsFrequency[0], cardsFrequency[1]].includes(2)) {
         // two pair (1+2+2 or 2+1+2 or 2+2+1)
-        // console.log(cardsString, "two pair");
         return 3;
       } else {
         // three of a kind (3+1+1 or 1+3+1 or 1+1+3)
-        // console.log(cardsString, "three of a kind");
         return 4;
       }
     case 4:
       // one pair (1+1+1+2 or 1+1+2+1 or 1+2+1+1 or 2+1+1+1)
-      // console.log(cardsString, "one pair");
       return 2;
     default:
       // high card (1+1+1+1+1)
-      // console.log(cardsString, "high card");
       return 1;
   }
 };
@@ -138,8 +129,6 @@ const main = (input) => {
       return -1;
     } else {
       for (let i = 0; i < a.cards.length; i++) {
-        // console.log(a.cards[i], cardsValue[a.cards[i]]);
-        // console.log(b.cards[i], cardsValue[b.cards[i]]);
         if (cardsValue[a.cards[i]] > cardsValue[b.cards[i]]) {
           return 1;
         } else if (cardsValue[a.cards[i]] < cardsValue[b.cards[i]]) {
@@ -151,16 +140,9 @@ const main = (input) => {
     }
   });
 
-  // console.log(hands);
-
   return hands.reduce((acc, hand, index) => {
     const win = hand.bid * (index + 1);
     const newAcc = acc + win;
-    // console.log(
-    //   `${hand.cards} => ${index + 1} * ${
-    //     hand.bid
-    //   } = ${win} + ${acc} = ${newAcc}`
-    // );
     return newAcc;
   }, 0);
 };
