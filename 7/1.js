@@ -72,18 +72,93 @@
 */
 
 const realInput = require("./input");
+const { splitLines } = require("../utils");
+
+const cardsValue = {
+  A: 14,
+  K: 13,
+  Q: 12,
+  J: 11,
+  T: 10,
+  9: 9,
+  8: 8,
+  7: 7,
+  6: 6,
+  5: 5,
+  4: 4,
+  3: 3,
+  2: 2,
+};
+
+const calculateHandValue = (cardsString) => {
+  const cards = cardsString.split("");
+  const cardsMap = cards.reduce((acc, card) => {
+    acc[card] = (acc[card] || 0) + 1;
+    return acc;
+  }, {});
+  const cardsFrequency = Object.values(cardsMap);
+
+  // check how many kinds of cards there are in the hand
+  switch (cardsFrequency.length) {
+    case 1:
+      // five of a kind (5+0)
+      return 7;
+    case 2:
+      if (cardsFrequency[0] === 1 || cardsFrequency[1] === 4) {
+        // four of a kind (1+4 or 4+1)
+        return 6;
+      } else {
+        // full (2+3 or 3+2)
+        return 5;
+      }
+    case 3:
+      if ([cardsFrequency[0], cardsFrequency[1]].includes(2)) {
+        // two pair (1+2+2 or 2+1+2 or 2+2+1)
+        return 3;
+      } else {
+        // three of a kind (3+1+1 or 1+3+1 or 1+1+3)
+        return 4;
+      }
+    case 4:
+      // one pair (1+1+1+2 or 1+1+2+1 or 1+2+1+1 or 2+1+1+1)
+      return 2;
+    default:
+      // high card (1+1+1+1+1)
+      return 1;
+  }
+};
 
 const main = (input) => {
-  /*
-    TODO: insert here the implementation of the first puzzle
-    using the "input" parameter
-  */
+  const hands = splitLines(input).map((hand) => {
+    const [cards, bid] = hand.split(" ");
+    return {
+      cards,
+      bid: parseInt(bid),
+    };
+  });
 
-  /*
-    TODO: this value with:
-    2. when the implementation will be ready, the calculated value
-  */
-  return 6440;
+  hands.sort((a, b) => {
+    const valueA = calculateHandValue(a.cards);
+    const valueB = calculateHandValue(b.cards);
+
+    if (valueA > valueB) return 1;
+    else if (valueB > valueA) return -1;
+    else {
+      for (let i = 0; i < a.cards.length; i++) {
+        if (cardsValue[a.cards[i]] > cardsValue[b.cards[i]]) {
+          return 1;
+        } else if (cardsValue[a.cards[i]] < cardsValue[b.cards[i]]) {
+          return -1;
+        }
+      }
+      // they are absolutely equal
+      return 1;
+    }
+  });
+
+  return hands.reduce((acc, hand, index) => {
+    return acc + hand.bid * (index + 1);
+  }, 0);
 };
 
 // TODO: uncomment this line when you're ready to test it with real input
