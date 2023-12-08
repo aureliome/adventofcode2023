@@ -105,4 +105,10 @@ The `difficulty` level is absolutely subjective: 🔵 (easy), 🔵🔵 (medium),
     <td>✅</td>
     <td>✅</td>
   </th>
+  <tr>
+    <td>8th</td>
+    <td>🔵🔵🔵</td>
+    <td>✅</td>
+    <td></td>
+  </th>
 </table>
