@@ -56,30 +56,32 @@ const createLocationsMap = (locations) =>
   }, {});
 
 const main = (input) => {
-  /* let [directions, ...locations] = splitLines(input);
+  let [directions, ...locations] = splitLines(input);
   directions = directions.split("");
 
   const locationsMap = createLocationsMap(locations);
 
+  // get all locations that end with "A" as starting points
+  let currentLocations = Object.keys(locationsMap).filter((location) =>
+    location.endsWith("A")
+  );
+  // define temporary variables
   let found = false,
-    steps = 1,
-    currentLocation = "AAA",
+    steps = 0,
     currentDirectionIndex = 0;
 
   while (!found) {
     const directionIndex = directions[currentDirectionIndex] === "L" ? 0 : 1;
-    currentLocation = locationsMap[currentLocation][directionIndex];
-
-    if (currentLocation === "ZZZ") {
-      found = true;
-    } else {
-      // increase currentDirectionIndex and steps
-      currentDirectionIndex = (currentDirectionIndex + 1) % directions.length;
-      steps++;
-    }
-  } */
-
-  return 6;
+    // go to the next locations
+    currentLocations = currentLocations.map(
+      (currentLocation) => locationsMap[currentLocation][directionIndex]
+    );
+    // check if all current locations end with "Z"
+    found = currentLocations.every((location) => location.endsWith("Z"));
+    // increase currentDirectionIndex and steps
+    currentDirectionIndex = (currentDirectionIndex + 1) % directions.length;
+    steps++;
+  }
 
   return steps;
 };
