@@ -46,19 +46,51 @@
   How many steps are required to reach ZZZ?
 */
 
+const { splitLines } = require("../utils");
 const realInput = require("./input");
 
+const createLocationsMap = (locations) =>
+  locations.reduce((acc, location) => {
+    const [key, routes] = location.split(" = ");
+    const [routeLeft, routeRight] = routes
+      .replace("(", "")
+      .replace(")", "")
+      .split(", ");
+    return {
+      ...acc,
+      [key]: [routeLeft, routeRight],
+    };
+  }, {});
+
 const main = (input) => {
-  /*
-    TODO: insert here the implementation of the first puzzle
-    using the "input" parameter
-  */
+  let [directions, ...locations] = splitLines(input);
+  directions = directions.split("");
+
+  const locationsMap = createLocationsMap(locations);
+
+  let found = false,
+    steps = 1,
+    currentLocation = "AAA",
+    currentDirectionIndex = 0;
+
+  while (!found) {
+    const directionIndex = directions[currentDirectionIndex] === "L" ? 0 : 1;
+    currentLocation = locationsMap[currentLocation][directionIndex];
+
+    if (currentLocation === "ZZZ") {
+      found = true;
+    } else {
+      // increase currentDirectionIndex and steps
+      currentDirectionIndex = (currentDirectionIndex + 1) % directions.length;
+      steps++;
+    }
+  }
 
   /*
     TODO: this value with:
     2. when the implementation will be ready, the calculated value
   */
-  return 6;
+  return steps;
 };
 
 // TODO: uncomment this line when you're ready to test it with real input
