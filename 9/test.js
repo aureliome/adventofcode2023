@@ -13,7 +13,6 @@ test("first puzzle works", () => {
   assert.strictEqual(first(input), 114);
 });
 
-// test("second puzzle works", () => {
-//   // TODO: replace this value with the expected value
-//   assert.strictEqual(second(input), 42);
-// });
+test("second puzzle works", () => {
+  assert.strictEqual(second(input), 2);
+});
