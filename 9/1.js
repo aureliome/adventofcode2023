@@ -87,18 +87,59 @@
 */
 
 const realInput = require("./input");
+const { splitLines } = require("../utils");
 
 const main = (input) => {
-  /*
-    TODO: insert here the implementation of the first puzzle
-    using the "input" parameter
-  */
+  let lines = splitLines(input);
+  lines = lines.map((line) => [
+    line.split(" ").map((number) => parseInt(number)),
+  ]);
 
-  /*
-    TODO: this value with:
-    2. when the implementation will be ready, the calculated value
-  */
-  return 114;
+  // calculate differences and add new lines
+  lines = lines.map((line) => {
+    const newLine = [line[0]];
+    let currentSeries = line[0];
+
+    let allZeros = false;
+    while (!allZeros) {
+      allZeros = true;
+      const nextSeries = [];
+      for (let i = 1; i < currentSeries.length; i++) {
+        const newValue = currentSeries[i] - currentSeries[i - 1];
+        nextSeries.push(newValue);
+        if (newValue !== 0) {
+          allZeros = false;
+        }
+      }
+      currentSeries = nextSeries;
+      newLine.push(nextSeries);
+    }
+    return newLine;
+  });
+
+  // calculate sum of last added values
+  let sum = 0;
+  // add new values at the end of every line
+  lines = lines.map((line) => {
+    let newLine = [];
+    // add the last series (all-zeros)
+    newLine.push(line[line.length - 1]);
+    // starts from bottom (last minus one)
+    let valueToAdd = 0;
+    for (let i = line.length - 2; i >= 0; i--) {
+      // const previousSeries = line[i + 1];
+      const currentSeries = line[i];
+      const currentSeriesLength = currentSeries.length;
+      const newValue = currentSeries[currentSeriesLength - 1] + valueToAdd;
+      valueToAdd = newValue;
+      // add the current line + the new value
+      newLine.push([...line[i], newValue]);
+    }
+    sum += valueToAdd;
+    return newLine;
+  });
+
+  return sum;
 };
 
 // TODO: uncomment this line when you're ready to test it with real input
