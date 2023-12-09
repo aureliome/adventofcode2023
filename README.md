@@ -54,61 +54,63 @@ It will contain the files mentioned in the chapter `Files Tree` above.
 
 ## Calendar
 
-The `difficulty` level is absolutely subjective: 🔵 (easy), 🔵🔵 (medium), 🔵🔵🔵 (hard).
+Legend:
+- `difficulty level` (absolutely subjective): ⚪ easy, 🟡 medium, 🔴 hard;
+- `resolved puzzles`: ✅ one part, ✅✅ all;
 
-<table>
+<table style="text-align: center;">
   <tr>
-    <th>Day</th>
-    <th>Difficulty</th>
-    <th>1st Part</th>
-    <th>2nd Part</th>
-  </th>
+    <th>MON</th>
+    <th>TUE</th>
+    <th>WED</th>
+    <th>THU</th>
+    <th>FRI</th>
+    <th>SAT</th>
+    <th>SUN</th>
+  </tr>
   <tr>
-    <td>1st</td>
-    <td>🔵🔵</td>
-    <td>✅</td>
-    <td>✅</td>
-  </th>
+    <td>🎁</td>
+    <td>⛄</td>
+    <td>🔔</td>
+    <td>❄️</td>
+    <td>1st<br/>🟡<br/>✅✅</td>
+    <td>2nd<br/>🟡<br/>✅✅</td>
+    <td>3th<br/>🔴<br/>✅✅</td>
+  </tr>
   <tr>
-    <td>2nd</td>
-    <td>🔵🔵</td>
-    <td>✅</td>
-    <td>✅</td>
-  </th>
+    <td>4th<br/>🟡<br/>✅✅</td>
+    <td>5th<br/>🔴<br/>✅</td>
+    <td>6th<br/>⚪<br/>✅✅</td>
+    <td>7th<br/>🟡<br/>✅✅</td>
+    <td>8th<br/>🔴<br/>✅</td>
+    <td>9th<br/>⚪<br/>✅✅</td>
+    <td>10th</td>
+  </tr>
   <tr>
-    <td>3rd</td>
-    <td>🔵🔵🔵</td>
-    <td>✅</td>
-    <td>✅</td>
-  </th>
+    <td>11th</td>
+    <td>12th</td>
+    <td>13th</td>
+    <td>14th</td>
+    <td>15th</td>
+    <td>16th</td>
+    <td>17th</td>
+  </tr>
   <tr>
-    <td>4th</td>
-    <td>🔵🔵</td>
-    <td>✅</td>
-    <td>✅</td>
-  </th>
+    <td>18th</td>
+    <td>19th</td>
+    <td>20th</td>
+    <td>21st</td>
+    <td>22nd</td>
+    <td>23rd</td>
+    <td>24th</td>
+  </tr>
   <tr>
-    <td>5th</td>
-    <td>🔵🔵🔵</td>
-    <td>✅</td>
-    <td></td>
-  </th>
-  <tr>
-    <td>6th</td>
-    <td>🔵</td>
-    <td>✅</td>
-    <td>✅</td>
-  </th>
-  <tr>
-    <td>7th</td>
-    <td>🔵🔵</td>
-    <td>✅</td>
-    <td>✅</td>
-  </th>
-  <tr>
-    <td>8th</td>
-    <td>🔵🔵🔵</td>
-    <td>✅</td>
-    <td></td>
-  </th>
+    <td>25th</td>
+    <td>🎄</td>
+    <td>🎅</td>
+    <td>☃️</td>
+    <td>🎉</td>
+    <td>🤶</td>
+    <td>🍾</td>
+  </tr>
 </table>
