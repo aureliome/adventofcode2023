@@ -142,7 +142,6 @@ const main = (input) => {
   return sum;
 };
 
-// TODO: uncomment this line when you're ready to test it with real input
-// console.log(`The sum is ${main(realInput)}`);
+console.log(`The sum is ${main(realInput)}`);
 
 module.exports = main;
