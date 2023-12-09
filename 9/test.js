@@ -10,7 +10,7 @@ const input = `
 `;
 
 test("first puzzle works", () => {
-  assert.strictEqual(first(input), 68);
+  assert.strictEqual(first(input), 114);
 });
 
 // test("second puzzle works", () => {

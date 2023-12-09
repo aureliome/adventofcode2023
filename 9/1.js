@@ -98,7 +98,7 @@ const main = (input) => {
     TODO: this value with:
     2. when the implementation will be ready, the calculated value
   */
-  return 68;
+  return 114;
 };
 
 // TODO: uncomment this line when you're ready to test it with real input
