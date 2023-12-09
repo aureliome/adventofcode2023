@@ -67,21 +67,19 @@ const main = (input) => {
     // add the last series (all-zeros)
     newLine.push(line[line.length - 1]);
     // starts from bottom (last minus one)
-    let valueToAdd = 0;
+    let valueToSubtract = 0;
     for (let i = line.length - 2; i >= 0; i--) {
       // const previousSeries = line[i + 1];
       const currentSeries = line[i];
-      const currentSeriesLength = currentSeries.length;
-      const newValue = currentSeries[currentSeriesLength - 1] + valueToAdd;
-      valueToAdd = newValue;
-      // add the current line + the new value
-      newLine.push([...line[i], newValue]);
+      // const currentSeriesLength = currentSeries.length;
+      const newValue = currentSeries[0] - valueToSubtract;
+      valueToSubtract = newValue;
+      // add the the new value + current line
+      newLine.push([newValue, ...line[i]]);
     }
-    sum += valueToAdd;
+    sum += valueToSubtract;
     return newLine;
   });
-
-  return 2;
 
   return sum;
 };
