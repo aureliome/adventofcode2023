@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert");
 const first = require("./1");
-// const second = require("./2");
+const second = require("./2");
 
 const input = `
 0 3 6 9 12 15
