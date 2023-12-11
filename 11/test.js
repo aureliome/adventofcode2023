@@ -24,6 +24,7 @@ test("first puzzle works", () => {
 });
 
 test("second puzzle works", () => {
-  // TODO: replace this value with the expected value
-  // assert.strictEqual(second(input), 42);
+  assert.strictEqual(second(input, 2), 374);
+  assert.strictEqual(second(input, 10), 1030);
+  assert.strictEqual(second(input, 100), 8410);
 });
