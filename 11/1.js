@@ -111,18 +111,70 @@
 */
 
 const realInput = require("./input");
+const { splitLines } = require("../utils");
 
 const main = (input) => {
-  /*
-    TODO: insert here the implementation of the first puzzle
-    using the "input" parameter
-  */
+  // get the matrix
+  let matrix = splitLines(input).map((line) => line.split(""));
+  // console.log(matrix);
 
-  /*
-    TODO: this value with:
-    2. when the implementation will be ready, the calculated value
-  */
-  return 374;
+  // expand the matrix
+  let emptyRows = [];
+  let emptyColumns = [];
+  // fill emptyColumns
+  for (let i = 0; i < matrix[0].length; i++) {
+    emptyColumns.push(i);
+  }
+  // add emptyRows and remove emptyColumns
+  matrix.forEach((row, rowIndex) => {
+    if (!row.includes("#")) {
+      emptyRows.push(rowIndex);
+    }
+    row.forEach((element, columnIndex) => {
+      if (element === "#") {
+        emptyColumns = emptyColumns.filter((column) => column !== columnIndex);
+      }
+    });
+  });
+  emptyRows = emptyRows.reverse();
+  emptyColumns = emptyColumns.reverse();
+  // console.log("emptyRows", emptyRows);
+  // console.log("emptyColumns", emptyColumns);
+
+  // expand the universe
+  // add columns
+  matrix = matrix.map((row, rowIndex) => {
+    let newRow = row;
+    emptyColumns.forEach((emptyColumn) => {
+      newRow.splice(emptyColumn, 0, "");
+    });
+    return newRow;
+  });
+  // add rows
+  emptyRows.forEach((emptyRow) => {
+    matrix.splice(emptyRow, 0, []);
+  });
+  // console.log(matrix);
+
+  // create map
+  const map = matrix.reduce((acc, row, rowIndex) => {
+    row.forEach((element, columnIndex) => {
+      if (element === "#") {
+        acc.push([columnIndex, rowIndex]);
+      }
+    });
+    return acc;
+  }, []);
+
+  // calculate differences and sum them
+  let sum = 0;
+  for (let i = 0; i < map.length - 1; i++) {
+    for (let k = i + 1; k < map.length; k++) {
+      sum += Math.abs(map[i][0] - map[k][0]) + Math.abs(map[i][1] - map[k][1]);
+    }
+  }
+
+  return sum;
 };
 
 // TODO: uncomment this line when you're ready to test it with real input
